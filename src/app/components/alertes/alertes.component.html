@@ -1,0 +1,219 @@
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Alertes</h1>
+      <p class="page-sub">
+        Notifications automatiques du système de supervision
+      </p>
+    </div>
+    <div class="header-actions" *ngIf="peutGererAlertes">
+      <button class="btn-secondary"
+              (click)="marquerToutesLues()"
+              *ngIf="countNonLues > 0">
+        <svg width="13" height="13" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Tout marquer lu
+      </button>
+      <button class="btn-danger"
+              (click)="supprimerToutes()"
+              *ngIf="alertes.length > 0">
+        <svg width="13" height="13" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+        </svg>
+        Tout supprimer
+      </button>
+    </div>
+  </div>
+
+  <!-- Bandeau visiteur -->
+  <div class="readonly-banner" *ngIf="!peutGererAlertes">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2">
+      <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+      <path d="M2.05 12.94a1 1 0 010-1.88c1.71-4.27 5.79-7.06
+               9.95-7.06s8.24 2.79 9.95 7.06a1 1 0 010 1.88
+               c-1.71 4.27-5.79 7.06-9.95 7.06s-8.24-2.79
+               -9.95-7.06z"/>
+    </svg>
+    Mode consultation — vous n'avez pas les droits
+    pour gérer les alertes
+  </div>
+
+  <!-- KPI Row -->
+  <div class="kpi-row">
+    <div class="kpi-chip total">
+      <span class="kpi-num">{{ alertes.length }}</span>
+      <span class="kpi-lbl">Total</span>
+    </div>
+    <div class="kpi-chip critical">
+      <span class="kpi-num">{{ countCritical }}</span>
+      <span class="kpi-lbl">🔴 Critiques</span>
+    </div>
+    <div class="kpi-chip warning">
+      <span class="kpi-num">{{ countWarning }}</span>
+      <span class="kpi-lbl">🟡 Avertissements</span>
+    </div>
+    <div class="kpi-chip unread">
+      <span class="kpi-num">{{ countNonLues }}</span>
+      <span class="kpi-lbl">📬 Non lues</span>
+    </div>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filters-bar">
+
+    <div class="search-wrap">
+      <svg width="15" height="15" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" [(ngModel)]="searchTerm"
+             placeholder="Rechercher une alerte..."/>
+      <button class="clear-btn" *ngIf="searchTerm"
+              (click)="searchTerm=''">✕</button>
+    </div>
+
+    <div class="filter-group">
+      <label>Niveau</label>
+      <div class="filter-tabs">
+        <button [class.active]="filtreNiveau==='tous'"
+                (click)="filtreNiveau='tous'">Tous</button>
+        <button [class.active]="filtreNiveau==='critical'"
+                (click)="filtreNiveau='critical'">Critiques</button>
+        <button [class.active]="filtreNiveau==='warning'"
+                (click)="filtreNiveau='warning'">Avertissements</button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label>Statut</label>
+      <div class="filter-tabs">
+        <button [class.active]="filtreLue==='toutes'"
+                (click)="filtreLue='toutes'">Toutes</button>
+        <button [class.active]="filtreLue==='non_lues'"
+                (click)="filtreLue='non_lues'">Non lues</button>
+        <button [class.active]="filtreLue==='lues'"
+                (click)="filtreLue='lues'">Lues</button>
+      </div>
+    </div>
+
+    <button class="btn-reset"
+            *ngIf="filtreNiveau!=='tous'
+                   || filtreLue!=='toutes'
+                   || searchTerm"
+            (click)="resetFiltres()">
+      Réinitialiser
+    </button>
+
+  </div>
+
+  <!-- État vide — aucune alerte -->
+  <div class="empty-state" *ngIf="alertes.length === 0">
+    <div class="empty-icon">
+      <svg width="40" height="40" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 01-3.46 0"/>
+      </svg>
+    </div>
+    <p class="empty-title">Aucune alerte — Système nominal ✓</p>
+    <p class="empty-sub">
+      Les alertes apparaissent automatiquement quand
+      le système détecte une anomalie (température,
+      humidité, absence, consommation, hors ligne)
+    </p>
+  </div>
+
+  <!-- État vide après filtre -->
+  <div class="empty-state"
+       *ngIf="alertes.length > 0 && alertesFiltrees.length === 0">
+    <div class="empty-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </div>
+    <p class="empty-title">Aucun résultat pour ces filtres</p>
+    <button class="btn-reset" (click)="resetFiltres()">
+      Réinitialiser les filtres
+    </button>
+  </div>
+
+  <!-- Liste alertes -->
+  <div class="alertes-list" *ngIf="alertesFiltrees.length > 0">
+    <div class="alerte-item"
+         *ngFor="let a of alertesFiltrees"
+         [class.non-lue]="!a.lue"
+         [class.critical]="a.niveau === 'critical'"
+         [class.warning]="a.niveau === 'warning'">
+
+      <!-- Point de couleur -->
+      <div class="niveau-dot" [class]="a.niveau"></div>
+
+      <!-- Icône type -->
+      <div class="alerte-icon">{{ getTypeIcon(a.typeAlerte) }}</div>
+
+      <!-- Contenu -->
+      <div class="alerte-content">
+        <div class="alerte-top">
+          <span class="alerte-type">
+            {{ getTypeLabel(a.typeAlerte) }}
+          </span>
+          <span class="alerte-salle">
+            <svg width="11" height="11" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5
+                       a2 2 0 01-2-2z"/>
+            </svg>
+            {{ getSalleName(a.idSalle) }}
+          </span>
+          <span class="alerte-date">
+            {{ formatDate(a.dateAlerte) }}
+          </span>
+        </div>
+        <p class="alerte-message">{{ a.message }}</p>
+      </div>
+
+      <!-- Badges -->
+      <div class="alerte-badges">
+        <span class="niveau-badge" [class]="a.niveau">
+          {{ getNiveauIcon(a.niveau) }} {{ getNiveauLabel(a.niveau) }}
+        </span>
+        <span class="lue-badge" *ngIf="a.lue">✓ Lue</span>
+      </div>
+
+      <!-- Actions — masquées pour visiteur -->
+      <div class="alerte-actions" *ngIf="peutGererAlertes">
+        <button class="btn-icon read"
+                (click)="marquerLue(a)"
+                *ngIf="!a.lue"
+                title="Marquer comme lue">
+          <svg width="13" height="13" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </button>
+        <button class="btn-icon delete"
+                (click)="supprimerAlerte(a)"
+                title="Supprimer">
+          <svg width="13" height="13" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 01-2 2H8
+                     a2 2 0 01-2-2L5 6"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

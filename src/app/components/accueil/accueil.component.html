@@ -1,0 +1,673 @@
+<div class="accueil-page">
+
+  <!-- ══ HERO ══ -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+        Système IoT de Gestion Énergétique Intelligente
+      </div>
+      <h1 class="hero-title">
+        Bienvenue sur <span class="hero-accent">EnergyIQ</span>
+      </h1>
+      <p class="hero-sub">
+        Plateforme nationale de supervision, d'automatisation
+        et d'optimisation de la consommation énergétique
+        des universités publiques du Sénégal.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-val">9</span>
+          <span class="hero-stat-lbl">Universités</span>
+        </div>
+        <div class="hero-stat-sep"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-val">IoT</span>
+          <span class="hero-stat-lbl">Connecté</span>
+        </div>
+        <div class="hero-stat-sep"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-val">24/7</span>
+          <span class="hero-stat-lbl">Supervision</span>
+        </div>
+        <div class="hero-stat-sep"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-val">ML</span>
+          <span class="hero-stat-lbl">Prédiction</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-illustration">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-card-float">
+        <div class="float-icon">⚡</div>
+        <div class="float-body">
+          <span class="float-val">Énergie</span>
+          <span class="float-lbl">Supervision temps réel</span>
+        </div>
+      </div>
+      <div class="hero-card-float float-right">
+        <div class="float-icon">🌍</div>
+        <div class="float-body">
+          <span class="float-val">Sénégal</span>
+          <span class="float-lbl">Universités publiques</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION UNIVERSITÉS ══ -->
+  <div class="universities-section">
+
+    <div class="section-header">
+      <div class="section-label">RÉSEAU NATIONAL</div>
+      <h2 class="section-title">
+        Universités Publiques du Sénégal
+      </h2>
+      <p class="section-sub">
+        Sélectionnez une université pour accéder
+        à sa fiche institutionnelle
+      </p>
+    </div>
+
+    <div class="universities-grid">
+
+      <!-- ── UCAD ── -->
+      <div class="univ-card active"
+           (click)="selectUniversite('ucad')">
+        <div class="univ-card-top ucad-top">
+          <div class="univ-logo">
+            <img src="assets/ucad.png"
+                 alt="Logo UCAD"
+                 onerror="this.style.display='none';
+                  this.nextElementSibling.style.display='flex'"/>
+            <div class="univ-logo-fallback ucad-fb"
+                 style="display:none">UCAD</div>
+          </div>
+          <div class="univ-sigle">UCAD</div>
+        </div>
+        <div class="univ-card-body">
+          <h3 class="univ-name">
+            Université Cheikh Anta Diop de Dakar
+          </h3>
+          <p class="univ-location">
+            <svg width="12" height="12" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Dakar — Fondée en 1957
+          </p>
+        </div>
+        <div class="univ-card-footer active-footer">
+          <span>
+            Voir la fiche
+            <svg width="14" height="14" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- ── UGB ── -->
+      <div class="univ-card"
+           (click)="selectUniversite('ugb')">
+        <div class="univ-card-top ugb-top">
+          <div class="univ-logo">
+            <img src="assets/ugb.jpeg" alt="Logo UGB"
+                 onerror="this.style.display='none';
+                  this.nextElementSibling.style.display='flex'"/>
+            <div class="univ-logo-fallback ugb-fb"
+                 style="display:none">UGB</div>
+          </div>
+          <div class="univ-sigle">UGB</div>
+        </div>
+        <div class="univ-card-body">
+          <h3 class="univ-name">
+            Université Gaston Berger
+          </h3>
+          <p class="univ-location">
+            <svg width="12" height="12" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Saint-Louis — Fondée en 1990
+          </p>
+        </div>
+        <div class="univ-card-footer">
+          <span>Voir la fiche →</span>
+        </div>
+      </div>
+
+      <!-- ── UADB ── -->
+      <div class="univ-card"
+           (click)="selectUniversite('uadb')">
+        <div class="univ-card-top uadb-top">
+          <div class="univ-logo">
+            <img src="assets/uadb.jpg" alt="Logo UADB"
+                 onerror="this.style.display='none';
+                  this.nextElementSibling.style.display='flex'"/>
+            <div class="univ-logo-fallback uadb-fb"
+                 style="display:none">UADB</div>
+          </div>
+          <div class="univ-sigle">UADB</div>
+        </div>
+        <div class="univ-card-body">
+          <h3 class="univ-name">
+            Université Alioune Diop de Bambey
+          </h3>
+          <p class="univ-location">
+            <svg width="12" height="12" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Bambey — Fondée en 2007
+          </p>
+        </div>
+        <div class="univ-card-footer">
+          <span>Voir la fiche →</span>
+        </div>
+      </div>
+
+      <!-- ── UASZ ── -->
+      <div class="univ-card"
+           (click)="selectUniversite('uasz')">
+        <div class="univ-card-top uasz-top">
+          <div class="univ-logo">
+            <img src="assets/uasz.png" alt="Logo UASZ"
+                 onerror="this.style.display='none';
+                  this.nextElementSibling.style.display='flex'"/>
+            <div class="univ-logo-fallback uasz-fb"
+                 style="display:none">UASZ</div>
+          </div>
+          <div class="univ-sigle">UASZ</div>
+        </div>
+        <div class="univ-card-body">
+          <h3 class="univ-name">
+            Université Assane Seck de Ziguinchor
+          </h3>
+          <p class="univ-location">
+            <svg width="12" height="12" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Ziguinchor — Fondée en 2007
+          </p>
+        </div>
+        <div class="univ-card-footer">
+          <span>Voir la fiche →</span>
+        </div>
+      </div>
+
+      <!-- ── UIDT ── -->
+      <div class="univ-card"
+           (click)="selectUniversite('uidt')">
+        <div class="univ-card-top uidt-top">
+          <div class="univ-logo">
+            <img src="assets/uidt.jpg" alt="Logo UIDT"
+                 onerror="this.style.display='none';
+                  this.nextElementSibling.style.display='flex'"/>
+            <div class="univ-logo-fallback uidt-fb"
+                 style="display:none">UIDT</div>
+          </div>
+          <div class="univ-sigle">UIDT</div>
+        </div>
+        <div class="univ-card-body">
+          <h3 class="univ-name">
+            Université Iba Der Thiam de Thiès
+          </h3>
+          <p class="univ-location">
+            <svg width="12" height="12" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Thiès — Fondée en 2007
+          </p>
+        </div>
+        <div class="univ-card-footer">
+          <span>Voir la fiche →</span>
+        </div>
+      </div>
+
+      <!-- ── USSEIN ── -->
+      <div class="univ-card"
+           (click)="selectUniversite('ussein')">
+        <div class="univ-card-top ussein-top">
+          <div class="univ-logo">
+            <img src="assets/ussein.jpg" alt="Logo USSEIN"
+                 onerror="this.style.display='none';
+                  this.nextElementSibling.style.display='flex'"/>
+            <div class="univ-logo-fallback ussein-fb"
+                 style="display:none">USSEIN</div>
+          </div>
+          <div class="univ-sigle">USSEIN</div>
+        </div>
+        <div class="univ-card-body">
+          <h3 class="univ-name">
+            Université du Sine-Saloum El-Hadj
+            Ibrahima Niass
+          </h3>
+          <p class="univ-location">
+            <svg width="12" height="12" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Kaolack — Fondée en 2013
+          </p>
+        </div>
+        <div class="univ-card-footer">
+          <span>Voir la fiche →</span>
+        </div>
+      </div>
+
+      <!-- ── UN-CHK ── -->
+      <div class="univ-card"
+           (click)="selectUniversite('unchk')">
+        <div class="univ-card-top unchk-top">
+          <div class="univ-logo">
+            <img src="assets/un-chk.png" alt="Logo UN-CHK"
+                 onerror="this.style.display='none';
+                  this.nextElementSibling.style.display='flex'"/>
+            <div class="univ-logo-fallback unchk-fb"
+                 style="display:none">UN-CHK</div>
+          </div>
+          <div class="univ-sigle">UN-CHK</div>
+        </div>
+        <div class="univ-card-body">
+          <h3 class="univ-name">
+            Université Numérique Cheikh Hamidou Kane
+          </h3>
+          <p class="univ-location">
+            <svg width="12" height="12" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Dakar — Fondée en 2013
+          </p>
+        </div>
+        <div class="univ-card-footer">
+          <span>Voir la fiche →</span>
+        </div>
+      </div>
+
+      <!-- ── UAM ── -->
+      <div class="univ-card"
+           (click)="selectUniversite('uam')">
+        <div class="univ-card-top uam-top">
+          <div class="univ-logo">
+            <img src="assets/uam.png" alt="Logo UAM"
+                 onerror="this.style.display='none';
+                  this.nextElementSibling.style.display='flex'"/>
+            <div class="univ-logo-fallback uam-fb"
+                 style="display:none">UAM</div>
+          </div>
+          <div class="univ-sigle">UAM</div>
+        </div>
+        <div class="univ-card-body">
+          <h3 class="univ-name">
+            Université Amadou Mahtar M'bow
+          </h3>
+          <p class="univ-location">
+            <svg width="12" height="12" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Diamniadio — Fondée en 2022
+          </p>
+        </div>
+        <div class="univ-card-footer">
+          <span>Voir la fiche →</span>
+        </div>
+      </div>
+    <!-- ── UCAK ── -->
+      <div class="univ-card"
+           (click)="selectUniversite('ucak')">
+        <div class="univ-card-top ucak-top">
+          <div class="univ-logo">
+            <img src="assets/ucak.jpeg" alt="Logo UCAK"
+                 onerror="this.style.display='none';
+                  this.nextElementSibling.style.display='flex'"/>
+            <div class="univ-logo-fallback ucak-fb"
+                 style="display:none">UCAK</div>
+          </div>
+          <div class="univ-sigle">UCAK</div>
+        </div>
+        <div class="univ-card-body">
+          <h3 class="univ-name">
+            Université Cheikh Ahmadoul Khadim
+          </h3>
+          <p class="univ-location">
+            <svg width="12" height="12" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Touba — Fondée en 2023
+          </p>
+        </div>
+        <div class="univ-card-footer">
+          <span>Voir la fiche →</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ FICHE UCAD ══ -->
+  <div class="fiche-section" *ngIf="ficheVisible">
+
+    <div class="fiche-header" [ngClass]="ficheActive + '-header'">
+      <div class="fiche-header-left">
+        <div class="fiche-logo-wrap">
+          <img [src]="'assets/logos/' + ficheActive + '.png'"
+               [alt]="'Logo ' + ficheActive"
+               onerror="this.style.display='none'"/>
+          <div class="fiche-logo-text">
+            {{ getSigle(ficheActive) }}
+          </div>
+        </div>
+        <div>
+          <h2 class="fiche-title">{{ getNomUniversite(ficheActive) }}</h2>
+          <p class="fiche-sub">Fiche institutionnelle — EnergyIQ</p>
+        </div>
+      </div>
+      <div class="fiche-header-right">
+        <button class="btn-close-fiche"
+                (click)="ficheVisible = false">
+          <svg width="16" height="16" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- UCAD uniquement — données terrain COUD -->
+    <div class="fiche-body" *ngIf="ficheActive === 'ucad'">
+
+      <!-- Infos générales UCAD -->
+      <div class="fiche-infos-grid">
+
+        <div class="fiche-info-card">
+          <div class="fiche-info-icon">🏛️</div>
+          <div class="fiche-info-body">
+            <span class="fiche-info-label">Établissement</span>
+            <span class="fiche-info-val">
+              Université Cheikh Anta Diop de Dakar
+            </span>
+          </div>
+        </div>
+
+        <div class="fiche-info-card">
+          <div class="fiche-info-icon">📍</div>
+          <div class="fiche-info-body">
+            <span class="fiche-info-label">Localisation</span>
+            <span class="fiche-info-val">
+              Dakar, Sénégal — Campus de Fann
+            </span>
+          </div>
+        </div>
+
+        <div class="fiche-info-card">
+          <div class="fiche-info-icon">📅</div>
+          <div class="fiche-info-body">
+            <span class="fiche-info-label">Année de fondation</span>
+            <span class="fiche-info-val">1957</span>
+          </div>
+        </div>
+
+        <div class="fiche-info-card">
+          <div class="fiche-info-icon">🌐</div>
+          <div class="fiche-info-body">
+            <span class="fiche-info-label">Site web</span>
+            <span class="fiche-info-val">www.ucad.sn</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Données énergétiques terrain — À COMPLÉTER après enquête COUD -->
+      <div class="terrain-section">
+
+        <div class="terrain-header">
+          <div class="terrain-icon">📊</div>
+          <div>
+            <h3 class="terrain-title">
+              Données Énergétiques — Enquête Terrain COUD
+            </h3>
+            <p class="terrain-sub">
+              Ces données seront collectées lors de l'enquête
+              au Centre des Œuvres Universitaires de Dakar (COUD)
+            </p>
+          </div>
+        </div>
+
+        <div class="terrain-grid">
+
+          <div class="terrain-card">
+            <div class="terrain-card-icon">🏢</div>
+            <div class="terrain-card-body">
+              <span class="terrain-label">
+                Nombre de bâtiments supervisés
+              </span>
+              <span class="terrain-val"
+                    *ngIf="donneesTerrain.batiments > 0">
+                {{ donneesTerrain.batiments }}
+              </span>
+              <span class="terrain-pending"
+                    *ngIf="donneesTerrain.batiments === 0">
+                En attente de collecte
+              </span>
+            </div>
+          </div>
+
+          <div class="terrain-card">
+            <div class="terrain-card-icon">🚪</div>
+            <div class="terrain-card-body">
+              <span class="terrain-label">
+                Nombre de salles équipées
+              </span>
+              <span class="terrain-val"
+                    *ngIf="donneesTerrain.salles > 0">
+                {{ donneesTerrain.salles }}
+              </span>
+              <span class="terrain-pending"
+                    *ngIf="donneesTerrain.salles === 0">
+                En attente de collecte
+              </span>
+            </div>
+          </div>
+
+          <div class="terrain-card">
+            <div class="terrain-card-icon">⚡</div>
+            <div class="terrain-card-body">
+              <span class="terrain-label">
+                Consommation annuelle estimée
+              </span>
+              <span class="terrain-val"
+                    *ngIf="donneesTerrain.consoAnnuelle > 0">
+                {{ donneesTerrain.consoAnnuelle | number:'1.0-0' }} kWh
+              </span>
+              <span class="terrain-pending"
+                    *ngIf="donneesTerrain.consoAnnuelle === 0">
+                En attente de collecte
+              </span>
+            </div>
+          </div>
+
+          <div class="terrain-card">
+            <div class="terrain-card-icon">💰</div>
+            <div class="terrain-card-body">
+              <span class="terrain-label">
+                Facture énergétique annuelle
+              </span>
+              <span class="terrain-val"
+                    *ngIf="donneesTerrain.factureAnnuelle > 0">
+                {{ donneesTerrain.factureAnnuelle | number:'1.0-0' }} FCFA
+              </span>
+              <span class="terrain-pending"
+                    *ngIf="donneesTerrain.factureAnnuelle === 0">
+                En attente de collecte
+              </span>
+            </div>
+          </div>
+
+          <div class="terrain-card">
+            <div class="terrain-card-icon">🎓</div>
+            <div class="terrain-card-body">
+              <span class="terrain-label">
+                Nombre d'étudiants
+              </span>
+              <span class="terrain-val"
+                    *ngIf="donneesTerrain.etudiants > 0">
+                {{ donneesTerrain.etudiants | number:'1.0-0' }}
+              </span>
+              <span class="terrain-pending"
+                    *ngIf="donneesTerrain.etudiants === 0">
+                En attente de collecte
+              </span>
+            </div>
+          </div>
+
+          <div class="terrain-card">
+            <div class="terrain-card-icon">👨‍🏫</div>
+            <div class="terrain-card-body">
+              <span class="terrain-label">
+                Nombre d'enseignants
+              </span>
+              <span class="terrain-val"
+                    *ngIf="donneesTerrain.enseignants > 0">
+                {{ donneesTerrain.enseignants | number:'1.0-0' }}
+              </span>
+              <span class="terrain-pending"
+                    *ngIf="donneesTerrain.enseignants === 0">
+                En attente de collecte
+              </span>
+            </div>
+          </div>
+
+          <div class="terrain-card">
+            <div class="terrain-card-icon">🌡️</div>
+            <div class="terrain-card-body">
+              <span class="terrain-label">
+                Température moyenne des salles
+              </span>
+              <span class="terrain-val"
+                    *ngIf="donneesTerrain.tempMoyenne > 0">
+                {{ donneesTerrain.tempMoyenne | number:'1.1-1' }} °C
+              </span>
+              <span class="terrain-pending"
+                    *ngIf="donneesTerrain.tempMoyenne === 0">
+                En attente de collecte
+              </span>
+            </div>
+          </div>
+
+          <div class="terrain-card">
+            <div class="terrain-card-icon">💡</div>
+            <div class="terrain-card-body">
+              <span class="terrain-label">
+                Gaspillage énergétique estimé
+              </span>
+              <span class="terrain-val"
+                    *ngIf="donneesTerrain.gaspillage > 0">
+                {{ donneesTerrain.gaspillage }} %
+              </span>
+              <span class="terrain-pending"
+                    *ngIf="donneesTerrain.gaspillage === 0">
+                En attente de collecte
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Note terrain -->
+        <div class="terrain-note">
+          <svg width="16" height="16" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Ces données seront complétées après l'enquête terrain
+          menée auprès du COUD dans le cadre de ce projet
+          de mémoire de Master 2 SRT — ESP/UCAD.
+        </div>
+
+      </div>
+
+      <!-- Bouton Dashboard EnergyIQ -->
+      <div class="fiche-cta">
+        <button class="btn-cta" (click)="allerDashboard()">
+          <svg width="18" height="18" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          Accéder au Dashboard EnergyIQ — UCAD
+          <svg width="16" height="16" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Autres universités — fiche générique -->
+    <div class="fiche-body" *ngIf="ficheActive !== 'ucad'">
+      <div class="fiche-generique">
+        <div class="fiche-gen-icon">🏛️</div>
+        <h3 class="fiche-gen-title">
+          {{ getNomUniversite(ficheActive) }}
+        </h3>
+        <p class="fiche-gen-sub">
+          La supervision énergétique de cette université
+          sera intégrée dans les prochaines phases
+          du déploiement du système EnergyIQ.
+        </p>
+        <div class="fiche-gen-info">
+          <div class="gen-info-item">
+            <span class="gen-info-label">Sigle</span>
+            <span class="gen-info-val">
+              {{ getSigle(ficheActive) }}
+            </span>
+          </div>
+          <div class="gen-info-item">
+            <span class="gen-info-label">Localisation</span>
+            <span class="gen-info-val">
+              {{ getVille(ficheActive) }}
+            </span>
+          </div>
+          <div class="gen-info-item">
+            <span class="gen-info-label">Statut EnergyIQ</span>
+            <span class="gen-info-val statut-futur">
+              Phase de planification
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

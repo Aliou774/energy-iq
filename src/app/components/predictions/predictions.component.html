@@ -1,0 +1,159 @@
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Prédictions ML</h1>
+      <p class="page-sub">
+        Prévisions de consommation énergétique par apprentissage automatique
+      </p>
+    </div>
+    <button class="btn-add" (click)="genererPredictions()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2">
+        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0
+                 l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0
+                 002 0l7-4A2 2 0 0021 16z"/>
+      </svg>
+      Générer prédictions
+    </button>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <span class="kpi-label">Total prédictions</span>
+      <span class="kpi-value">{{ predictions.length }}</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Confiance moyenne</span>
+      <span class="kpi-value" [style.color]="getConfianceColor(moyConfiance/100)">
+        {{ moyConfiance }}%
+      </span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Conso. moyenne prédite</span>
+      <span class="kpi-value">
+        {{ consoMoyenne | number:'1.2-2' }}<small>kWh</small>
+      </span>
+    </div>
+    <div class="kpi-card ml-card">
+      <span class="kpi-label">Modèles utilisés</span>
+      <div class="modeles-chips">
+        <span class="modele-chip rf">Random Forest</span>
+        <span class="modele-chip lstm">LSTM</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtre modèle -->
+  <div class="filter-row">
+    <span class="filter-label">Filtrer par modèle :</span>
+    <div class="filter-tabs">
+      <button *ngFor="let m of modeles"
+              [class.active]="selectedModele === m"
+              (click)="selectedModele = m; updateChart()">
+        {{ m === 'tous' ? 'Tous' : m }}
+      </button>
+    </div>
+  </div>
+
+  <!-- État vide -->
+  <div class="empty-state" *ngIf="predictions.length === 0">
+    <div class="empty-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5">
+        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0
+                 l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0
+                 002 0l7-4A2 2 0 0021 16z"/>
+      </svg>
+    </div>
+    <p class="empty-title">Aucune prédiction disponible</p>
+    <p class="empty-sub">
+      Cliquez sur "Générer prédictions" pour lancer le modèle ML
+    </p>
+    <button class="btn-add" (click)="genererPredictions()">
+      Générer maintenant
+    </button>
+  </div>
+
+  <div *ngIf="predictions.length > 0">
+
+    <!-- Graphique -->
+    <div class="chart-card">
+      <div class="card-header">
+        <h3>Visualisation des prédictions</h3>
+        <span class="ml-badge">ML</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="predChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Tableau -->
+    <div class="table-card">
+      <div class="card-header">
+        <h3>Détail des prédictions</h3>
+        <span class="count">{{ predictionsFiltrees.length }} résultats</span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Salle</th>
+              <th>Conso. prédite</th>
+              <th>Modèle</th>
+              <th>Confiance</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of predictionsFiltrees">
+              <td>
+                <span class="salle-chip">
+                  {{ getSalleName(p.idSalle) }}
+                </span>
+              </td>
+              <td class="val-conso">
+                {{ p.consoPredite | number:'1.2-2' }} kWh
+              </td>
+              <td>
+                <span class="modele-tag"
+                      [class.rf]="p.modele==='RandomForest'"
+                      [class.lstm]="p.modele==='LSTM'">
+                  {{ p.modele }}
+                </span>
+              </td>
+              <td>
+                <div class="conf-row">
+                  <div class="conf-bar">
+                    <div class="conf-fill"
+                         [style.width.%]="(p.scoreConfiance||0)*100"
+                         [style.background]="getConfianceColor(p.scoreConfiance)">
+                    </div>
+                  </div>
+                  <span class="conf-val"
+                        [style.color]="getConfianceColor(p.scoreConfiance)">
+                    {{ ((p.scoreConfiance||0)*100) | number:'1.0-0' }}%
+                  </span>
+                </div>
+              </td>
+              <td class="val-date">{{ formatDate(p.datePrediction) }}</td>
+              <td>
+                <button class="btn-icon delete"
+                        (click)="supprimerPrediction(p)">
+                  <svg width="12" height="12" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

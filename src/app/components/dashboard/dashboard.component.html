@@ -1,0 +1,319 @@
+<div class="dashboard-page">
+
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-sub">Supervision intelligente — Campus universitaire</p>
+    </div>
+    <div class="header-right">
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        Temps réel
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+
+    <div class="kpi-card kpi-temp">
+      <div class="kpi-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24"
+             fill="none" stroke="#0F4C5C" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26
+                   a4.5 4.5 0 105 0z"/>
+        </svg>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-label">Température moy.</span>
+        <span class="kpi-value">
+          {{ moyTemperature | number:'1.1-1' }}<small>°C</small>
+        </span>
+        <span class="kpi-trend"
+              [class.up]="tempTrend > 0"
+              [class.down]="tempTrend < 0">
+          {{ tempTrend > 0 ? '▲' : '▼' }}
+          {{ tempTrend | number:'1.1-1' }}°C
+        </span>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-power">
+      <div class="kpi-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24"
+             fill="none" stroke="#0F4C5C" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-label">Puissance totale</span>
+        <span class="kpi-value">
+          {{ puissanceTotale | number:'1.0-0' }}<small>W</small>
+        </span>
+        <span class="kpi-trend">
+          {{ economie | number:'1.0-0' }}W gaspillés
+        </span>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-presence">
+      <div class="kpi-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24"
+             fill="none" stroke="#0F4C5C" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87
+                   M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-label">Salles occupées</span>
+        <span class="kpi-value">
+          {{ sallesOccupees }}<small>/{{ totalSalles }}</small>
+        </span>
+        <div class="presence-bar">
+          <div class="presence-fill"
+               [style.width.%]="totalSalles > 0
+                 ? (sallesOccupees / totalSalles * 100) : 0">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-alert">
+      <div class="kpi-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24"
+             fill="none" stroke="#0F4C5C" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 01-3.46 0"/>
+        </svg>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-label">Alertes actives</span>
+        <span class="kpi-value">
+          {{ alertesCount }}<small> alertes</small>
+        </span>
+        <div class="alert-levels">
+          <span class="al-chip critical">
+            {{ alertesCritical }} critique
+          </span>
+          <span class="al-chip warning">
+            {{ alertesWarning }} warning
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Graphique + État équipements -->
+  <div class="main-grid">
+
+    <div class="chart-card">
+      <div class="card-header">
+        <h3>Consommation énergétique</h3>
+        <div class="chart-tabs">
+          <button [class.active]="chartPeriod==='1h'"
+                  (click)="setChartPeriod('1h')">1h</button>
+          <button [class.active]="chartPeriod==='24h'"
+                  (click)="setChartPeriod('24h')">24h</button>
+          <button [class.active]="chartPeriod==='7j'"
+                  (click)="setChartPeriod('7j')">7j</button>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="mainChart"></canvas>
+      </div>
+    </div>
+
+    <div class="equip-card">
+      <div class="card-header">
+        <h3>État des équipements</h3>
+        <span class="card-badge">Temps réel</span>
+      </div>
+      <div class="equip-list">
+
+        <div class="equip-item"
+             *ngFor="let salle of sallesStatus"
+             [class.occupied]="salle.presence"
+             [class.hors-ligne]="!salle.connecte">
+
+          <div class="salle-presence-dot"
+               [class.occupied]="salle.presence">
+          </div>
+
+          <div class="equip-salle-name">
+            {{ salle.nomSalle }}
+            <span class="auto-badge"
+                  *ngIf="salle.risqueExtinctionAuto"
+                  title="L'ESP32 éteindra automatiquement
+                         cet équipement après 10 minutes
+                         d'absence détectée">
+              <svg width="11" height="11" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              Auto
+            </span>
+          </div>
+
+          <div class="equip-controls">
+
+            <div class="equip-toggle"
+                 [class.on]="salle.lampeOn"
+                 [class.pending]="!salle.connecte"
+                 (click)="toggleEquipementSalle(salle, 'lampe')">
+              <svg width="13" height="13" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+              </svg>
+              <span>Lampe</span>
+              <span class="toggle-state">
+                {{ salle.lampeOn ? 'ON' : 'OFF' }}
+              </span>
+            </div>
+
+            <div class="equip-toggle"
+                 [class.on]="salle.ventiloOn"
+                 [class.pending]="!salle.connecte"
+                 (click)="toggleEquipementSalle(salle, 'ventilateur')">
+              <svg width="13" height="13" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4"/>
+              </svg>
+              <span>Ventilo</span>
+              <span class="toggle-state">
+                {{ salle.ventiloOn ? 'ON' : 'OFF' }}
+              </span>
+            </div>
+
+          </div>
+
+          <div class="equip-meta-right">
+            <span class="temp-badge" *ngIf="salle.connecte">
+              {{ salle.temp | number:'1.1-1' }}°C
+            </span>
+            <span class="no-signal" *ngIf="!salle.connecte">
+              <svg width="12" height="12" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="1" y1="1" x2="23" y2="23"/>
+                <path d="M16.72 11.06A10.94 10.94 0 0119 12.55
+                         M5 12.55a10.94 10.94 0 015.17-2.39
+                         M10.71 5.05A16 16 0 0122.56 9
+                         M1.42 9a15.91 15.91 0 014.7-2.88
+                         M8.53 16.11a6 6 0 016.95 0M12 20h.01"/>
+              </svg>
+              Hors ligne
+            </span>
+          </div>
+
+        </div>
+
+        <div class="no-data" *ngIf="sallesStatus.length === 0">
+          <p>Aucune salle enregistrée</p>
+          <a routerLink="/salles">Ajouter des salles →</a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tableau mesures + Prédictions -->
+  <div class="bottom-grid">
+
+    <div class="mesures-card">
+      <div class="card-header">
+        <h3>Dernières mesures capteurs</h3>
+        <a routerLink="/mesures" class="card-link">Voir tout →</a>
+      </div>
+
+      <div class="no-data" *ngIf="derniersMesures.length === 0">
+        <p>Aucune mesure disponible</p>
+      </div>
+
+      <table class="data-table" *ngIf="derniersMesures.length > 0">
+        <thead>
+          <tr>
+            <th>Salle</th>
+            <th>Temp.</th>
+            <th>Hum.</th>
+            <th>Présence</th>
+            <th>Puissance</th>
+            <th>Heure</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of derniersMesures"
+              [class.hors-ligne]="!m.connecte">
+            <td><span class="salle-chip">{{ m.nomSalle }}</span></td>
+            <td class="val-temp">
+              {{ m.temperature | number:'1.1-1' }}°C
+            </td>
+            <td>{{ m.humidite | number:'1.0-0' }}%</td>
+            <td>
+              <span class="pres-badge" [class.present]="m.presence">
+                {{ m.presence ? '● Oui' : '○ Non' }}
+              </span>
+            </td>
+            <td class="val-power">
+              {{ m.puissance | number:'1.0-0' }}W
+            </td>
+            <td class="val-time">
+              {{ m.timestamp ? (m.timestamp | date:'HH:mm:ss') : '—' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pred-card">
+      <div class="card-header">
+        <h3>Prédictions ML</h3>
+        <span class="card-badge ml">RandomForest</span>
+      </div>
+
+      <div class="no-data" *ngIf="predictions.length === 0">
+        <p>Aucune prédiction disponible</p>
+        <a routerLink="/predictions">Générer →</a>
+      </div>
+
+      <div class="pred-list" *ngIf="predictions.length > 0">
+        <div class="pred-item" *ngFor="let p of predictions">
+          <div class="pred-salle">
+            {{ getPredNomSalle(p.idSalle) }}
+          </div>
+          <div class="pred-bar-wrap">
+            <div class="pred-bar"
+                 [style.width.%]="(p.consoPredite / maxConso) * 100">
+            </div>
+          </div>
+          <div class="pred-val">
+            {{ p.consoPredite | number:'1.2-2' }} kWh
+          </div>
+          <div class="pred-conf">
+            {{ ((p.scoreConfiance || 0) * 100) | number:'1.0-0' }}%
+          </div>
+        </div>
+      </div>
+
+      <a routerLink="/predictions" class="btn-see-all">
+        Voir toutes les prédictions
+      </a>
+    </div>
+
+  </div>
+
+</div>

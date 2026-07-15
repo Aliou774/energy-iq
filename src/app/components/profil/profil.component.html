@@ -1,0 +1,182 @@
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Mon Profil</h1>
+      <p class="page-sub">Informations de votre compte</p>
+    </div>
+    <button class="btn-logout" (click)="logout()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4
+                 M16 17l5-5-5-5M21 12H9"/>
+      </svg>
+      Déconnexion
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Chargement du profil...</p>
+  </div>
+
+  <div *ngIf="!loading && profil">
+
+    <!-- Card profil principal -->
+    <div class="profil-card">
+
+      <!-- Avatar -->
+      <div class="avatar-section">
+        <div class="avatar">{{ initiales }}</div>
+        <div class="avatar-info">
+          <h2 class="user-name">
+            {{ profil.prenom }} {{ profil.nom }}
+          </h2>
+          <span class="user-role"
+                [style.color]="getRoleColor(profil.role)">
+            {{ getRoleLabel(profil.role) }}
+          </span>
+          <span class="user-email">{{ profil.email }}</span>
+        </div>
+      </div>
+
+      <!-- Success message -->
+      <div class="success-msg" *ngIf="successMsg">
+        ✓ {{ successMsg }}
+      </div>
+
+      <!-- Infos en lecture -->
+      <div class="info-grid" *ngIf="!editMode">
+        <div class="info-item">
+          <span class="info-label">Nom</span>
+          <span class="info-value">{{ profil.nom }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Prénom</span>
+          <span class="info-value">{{ profil.prenom }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Email</span>
+          <span class="info-value">{{ profil.email }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Date de naissance</span>
+          <span class="info-value">{{ profil.dateNaissance || '—' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Téléphone</span>
+          <span class="info-value">{{ profil.telephone || '—' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Adresse</span>
+          <span class="info-value">{{ profil.adresse || '—' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Rôle</span>
+          <span class="info-value role-badge"
+                [style.color]="getRoleColor(profil.role)"
+                [style.border-color]="getRoleColor(profil.role) + '40'"
+                [style.background]="getRoleColor(profil.role) + '12'">
+            {{ getRoleLabel(profil.role) }}
+          </span>
+        </div>
+      </div>
+
+      <button class="btn-edit" (click)="openEdit()" *ngIf="!editMode">
+        ✏️ Modifier le profil
+      </button>
+
+      <!-- Formulaire édition -->
+      <form class="edit-form" *ngIf="editMode" (ngSubmit)="saveEdit()">
+        <div class="fields-row">
+          <div class="field-group">
+            <label>Nom</label>
+            <input type="text" [(ngModel)]="formNom"
+                   name="nom" required/>
+          </div>
+          <div class="field-group">
+            <label>Prénom</label>
+            <input type="text" [(ngModel)]="formPrenom"
+                   name="prenom" required/>
+          </div>
+        </div>
+        <div class="fields-row">
+          <div class="field-group">
+            <label>Téléphone</label>
+            <input type="tel" [(ngModel)]="formTel"
+                   name="tel"
+                   placeholder="+221 77 000 00 00"/>
+          </div>
+          <div class="field-group">
+            <label>Adresse</label>
+            <input type="text" [(ngModel)]="formAdresse"
+                   name="adresse"
+                   placeholder="Dakar, Sénégal"/>
+          </div>
+        </div>
+        <div class="edit-actions">
+          <button type="button" class="btn-cancel"
+                  (click)="cancelEdit()">Annuler</button>
+          <button type="submit" class="btn-save">
+            ✓ Enregistrer
+          </button>
+        </div>
+      </form>
+
+    </div>
+
+    <!-- Card sécurité -->
+    <div class="security-card">
+      <h3 class="section-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Sécurité du compte
+      </h3>
+      <div class="security-items">
+        <div class="security-item">
+          <div class="sec-info">
+            <span class="sec-title">Authentification Firebase</span>
+            <span class="sec-sub">
+              Votre mot de passe est chiffré et géré par Firebase Auth
+            </span>
+          </div>
+          <span class="sec-badge ok">✓ Actif</span>
+        </div>
+        <div class="security-item">
+          <div class="sec-info">
+            <span class="sec-title">Communication chiffrée</span>
+            <span class="sec-sub">
+              Toutes les données transitent via HTTPS/TLS
+            </span>
+          </div>
+          <span class="sec-badge ok">✓ TLS</span>
+        </div>
+        <div class="security-item">
+          <div class="sec-info">
+            <span class="sec-title">Rôle et permissions</span>
+            <span class="sec-sub">
+              Accès contrôlé selon votre rôle :
+              {{ profil.role }}
+            </span>
+          </div>
+          <span class="sec-badge"
+                [style.color]="getRoleColor(profil.role)"
+                [style.background]="getRoleColor(profil.role) + '15'">
+            {{ profil.role }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Profil introuvable -->
+  <div class="empty-state" *ngIf="!loading && !profil">
+    <p class="empty-title">Profil introuvable</p>
+    <button class="btn-logout" (click)="logout()">Se déconnecter</button>
+  </div>
+
+</div>

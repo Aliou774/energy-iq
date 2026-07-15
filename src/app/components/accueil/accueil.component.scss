@@ -1,0 +1,851 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+* { box-sizing: border-box; }
+
+.accueil-page {
+  min-height: 100vh;
+  background: #F2EFEA;
+  font-family: 'Inter', sans-serif;
+  color: #061A1F;
+}
+
+/* ══ HERO ══ */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 56px 48px 48px;
+  background: linear-gradient(
+    135deg,
+    #061A1F 0%,
+    #0B2C35 50%,
+    #0F4C5C 100%
+  );
+  position: relative;
+  overflow: hidden;
+  min-height: 320px;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(159,183,182,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(159,183,182,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 580px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: #9FB7B6;
+  background: rgba(159,183,182,0.1);
+  border: 1px solid rgba(159,183,182,0.2);
+  border-radius: 20px;
+  padding: 6px 14px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  color: #F2EFEA;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin: 0 0 14px;
+}
+
+.hero-accent {
+  color: #9FB7B6;
+}
+
+.hero-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(242,239,234,0.70);
+  line-height: 1.75;
+  margin: 0 0 32px;
+  max-width: 480px;
+}
+
+.hero-stats {
+  display: flex;
+  align-items: center;
+  background: rgba(242,239,234,0.07);
+  border: 1px solid rgba(242,239,234,0.1);
+  border-radius: 14px;
+  padding: 16px 24px;
+  width: fit-content;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 0 20px;
+}
+
+.hero-stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #F2EFEA;
+  line-height: 1;
+}
+
+.hero-stat-lbl {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(159,183,182,0.75);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.hero-stat-sep {
+  width: 1px;
+  height: 36px;
+  background: rgba(242,239,234,0.12);
+}
+
+/* ── Illustration Hero ── */
+.hero-illustration {
+  position: relative;
+  z-index: 1;
+  width: 280px;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.hero-orb-1 {
+  width: 200px; height: 200px;
+  background: rgba(159,183,182,0.15);
+  top: -40px; right: -40px;
+}
+
+.hero-orb-2 {
+  width: 150px; height: 150px;
+  background: rgba(15,76,92,0.3);
+  bottom: -20px; left: -20px;
+}
+
+.hero-card-float {
+  position: absolute;
+  background: rgba(242,239,234,0.1);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(242,239,234,0.15);
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: float-anim 4s ease-in-out infinite;
+}
+
+.hero-card-float:first-of-type {
+  top: 20px; left: 0;
+}
+
+.hero-card-float.float-right {
+  right: 0; bottom: 20px;
+  animation-delay: -2s;
+}
+
+@keyframes float-anim {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+.float-icon { font-size: 24px; }
+
+.float-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.float-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #F2EFEA;
+}
+
+.float-lbl {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(159,183,182,0.8);
+}
+
+/* ══ SECTION UNIVERSITÉS ══ */
+.universities-section {
+  padding: 52px 48px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.section-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: #0F4C5C;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: #061A1F;
+  margin: 0 0 12px;
+  letter-spacing: -0.8px;
+  line-height: 1.15;
+}
+
+.section-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #9FB7B6;
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ── Grid universités ── */
+.universities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Card université ── */
+.univ-card {
+  background: #ffffff;
+  border: 1.5px solid rgba(159,183,182,0.3);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 12px rgba(6,26,31,0.06);
+}
+
+.univ-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(15,76,92,0.13);
+  border-color: rgba(15,76,92,0.25);
+}
+
+.univ-card.active {
+  border-color: rgba(15,76,92,0.3);
+}
+
+.univ-card.active:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(15,76,92,0.18);
+  border-color: #0F4C5C;
+}
+
+/* ── Top de la card ── */
+.univ-card-top {
+  padding: 22px 20px 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(159,183,182,0.15);
+}
+
+/* Couleurs distinctives par université */
+.ucad-top   { background: linear-gradient(135deg, #061A1F, #0F4C5C); }
+.ugb-top    { background: linear-gradient(135deg, #0a3d62, #2980b9); }
+.uadb-top   { background: linear-gradient(135deg, #1a3a1a, #27ae60); }
+.uasz-top   { background: linear-gradient(135deg, #4a1a00, #e67e22); }
+.uidt-top   { background: linear-gradient(135deg, #2c0a4a, #9b59b6); }
+.ussein-top { background: linear-gradient(135deg, #4a0a0a, #e74c3c); }
+.unchk-top  { background: linear-gradient(135deg, #0a2a4a, #2196F3); }
+.uam-top    { background: linear-gradient(135deg, #2a1a00, #f39c12); }
+.ucak-top   { background: linear-gradient(135deg, #1a3300, #4CAF50); }
+
+/* ── Logo université ── */
+.univ-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.univ-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+}
+
+.univ-logo-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-align: center;
+  padding: 4px;
+}
+
+/* Couleurs fallback */
+.ucad-fb   { background: linear-gradient(135deg, #061A1F, #0F4C5C); }
+.ugb-fb    { background: linear-gradient(135deg, #0a3d62, #2980b9); }
+.uadb-fb   { background: linear-gradient(135deg, #1a3a1a, #27ae60); }
+.uasz-fb   { background: linear-gradient(135deg, #4a1a00, #e67e22); }
+.uidt-fb   { background: linear-gradient(135deg, #2c0a4a, #9b59b6); }
+.ussein-fb { background: linear-gradient(135deg, #4a0a0a, #e74c3c); }
+.unchk-fb  { background: linear-gradient(135deg, #0a2a4a, #2196F3); }
+.uam-fb    { background: linear-gradient(135deg, #2a1a00, #f39c12); }
+.ucak-fb   { background: linear-gradient(135deg, #1a3300, #4CAF50); }
+
+/* ── Sigle ── */
+.univ-sigle {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: #F2EFEA;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  align-self: flex-end;
+  opacity: 0.9;
+}
+
+/* ── Corps card ── */
+.univ-card-body {
+  padding: 18px 20px;
+  flex: 1;
+}
+
+.univ-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #061A1F;
+  margin: 0 0 8px;
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+}
+
+.univ-location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: #9FB7B6;
+  margin: 0;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* ── Footer card ── */
+.univ-card-footer {
+  padding: 13px 20px;
+  border-top: 1px solid rgba(159,183,182,0.15);
+  background: rgba(242,239,234,0.5);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0B2C35;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.univ-card:hover .univ-card-footer {
+  color: #0F4C5C;
+  background: rgba(15,76,92,0.04);
+}
+
+/* Footer actif UCAD */
+.active-footer {
+  background: rgba(15,76,92,0.06);
+  border-top: 1px solid rgba(15,76,92,0.15);
+  color: #0F4C5C;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 13px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.univ-card.active:hover .active-footer {
+  background: rgba(15,76,92,0.1);
+}
+
+.active-footer svg {
+  transition: transform 0.2s;
+}
+
+.univ-card.active:hover .active-footer svg {
+  transform: translateX(5px);
+}
+
+/* ══ FICHE INSTITUTIONNELLE ══ */
+.fiche-section {
+  margin: 0 48px 52px;
+  background: #ffffff;
+  border: 1.5px solid rgba(15,76,92,0.2);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(15,76,92,0.1);
+  animation: slideDown 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header fiche ── */
+.fiche-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* Couleurs header par université */
+.ucad-header   { background: linear-gradient(135deg, #061A1F, #0B2C35, #0F4C5C); }
+.ugb-header    { background: linear-gradient(135deg, #0a3d62, #1a5276, #2980b9); }
+.uadb-header   { background: linear-gradient(135deg, #1a3a1a, #1e6b1e, #27ae60); }
+.uasz-header   { background: linear-gradient(135deg, #4a1a00, #7d3c00, #e67e22); }
+.uidt-header   { background: linear-gradient(135deg, #2c0a4a, #6c2a8a, #9b59b6); }
+.ussein-header { background: linear-gradient(135deg, #4a0a0a, #8a1a1a, #e74c3c); }
+.unchk-header  { background: linear-gradient(135deg, #0a2a4a, #0d5c8a, #2196F3); }
+.uam-header    { background: linear-gradient(135deg, #2a1a00, #7a4800, #f39c12); }
+.ucak-header   { background: linear-gradient(135deg, #1a3300, #2fa133, #27ae60); }
+
+.fiche-header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.fiche-logo-wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.12);
+  border: 2px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.fiche-logo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+}
+
+.fiche-logo-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: #F2EFEA;
+  letter-spacing: 0.5px;
+}
+
+.fiche-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  color: #F2EFEA;
+  margin: 0 0 4px;
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+}
+
+.fiche-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(242,239,234,0.6);
+  margin: 0;
+}
+
+.fiche-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.btn-close-fiche {
+  width: 38px;
+  height: 38px;
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.btn-close-fiche:hover {
+  background: rgba(255,100,100,0.2);
+  color: #ff8080;
+}
+
+/* ── Corps fiche ── */
+.fiche-body { padding: 28px 32px; }
+
+/* ── Infos générales ── */
+.fiche-infos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.fiche-info-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #F2EFEA;
+  border: 1.5px solid rgba(159,183,182,0.3);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: border-color 0.2s;
+}
+
+.fiche-info-card:hover {
+  border-color: rgba(15,76,92,0.25);
+}
+
+.fiche-info-icon { font-size: 22px; flex-shrink: 0; }
+
+.fiche-info-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fiche-info-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #0F4C5C;
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+.fiche-info-val {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #061A1F;
+  line-height: 1.4;
+}
+
+/* ── Section terrain COUD ── */
+.terrain-section {
+  background: #F2EFEA;
+  border: 1.5px solid rgba(159,183,182,0.3);
+  border-radius: 16px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+
+.terrain-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.terrain-icon { font-size: 28px; flex-shrink: 0; }
+
+.terrain-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #061A1F;
+  margin: 0 0 5px;
+  letter-spacing: -0.3px;
+}
+
+.terrain-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #9FB7B6;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.terrain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.terrain-card {
+  background: #ffffff;
+  border: 1.5px solid rgba(159,183,182,0.3);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.terrain-card:hover {
+  border-color: rgba(15,76,92,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15,76,92,0.08);
+}
+
+.terrain-card-icon { font-size: 24px; flex-shrink: 0; }
+
+.terrain-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.terrain-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #0F4C5C;
+  font-weight: 700;
+  opacity: 0.75;
+  line-height: 1.4;
+}
+
+.terrain-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #061A1F;
+  line-height: 1;
+}
+
+.terrain-pending {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #9FB7B6;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.terrain-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(15,76,92,0.06);
+  border: 1.5px solid rgba(15,76,92,0.15);
+  border-left: 4px solid #0F4C5C;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #0B2C35;
+  font-style: italic;
+  line-height: 1.7;
+}
+
+/* ── CTA dashboard ── */
+.fiche-cta {
+  text-align: center;
+  padding-top: 8px;
+}
+
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #0B2C35, #0F4C5C);
+  color: #F2EFEA;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  transition: transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 6px 20px rgba(11,44,53,0.3);
+}
+
+.btn-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(11,44,53,0.4);
+}
+
+.btn-cta svg:last-child {
+  transition: transform 0.2s;
+}
+
+.btn-cta:hover svg:last-child {
+  transform: translateX(4px);
+}
+
+/* ── Fiche générique autres universités ── */
+.fiche-generique {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 20px;
+  text-align: center;
+}
+
+.fiche-gen-icon { font-size: 52px; }
+
+.fiche-gen-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #061A1F;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.fiche-gen-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #9FB7B6;
+  max-width: 500px;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.fiche-gen-info {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: #F2EFEA;
+  border: 1.5px solid rgba(159,183,182,0.3);
+  border-radius: 16px;
+  padding: 20px 32px;
+}
+
+.gen-info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.gen-info-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #0F4C5C;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+.gen-info-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #061A1F;
+}
+
+.statut-futur {
+  font-family: 'Inter', sans-serif;
+  color: #9FB7B6;
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+/* ══ Responsive ══ */
+@media (max-width: 900px) {
+  .hero-section {
+    padding: 36px 24px;
+    flex-direction: column;
+  }
+  .hero-illustration { display: none; }
+  .universities-section { padding: 36px 24px; }
+  .fiche-section { margin: 0 24px 40px; }
+  .fiche-header { padding: 20px 24px; }
+  .fiche-body { padding: 20px 24px; }
+  .terrain-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .hero-title { font-size: 28px; }
+  .hero-stats { flex-wrap: wrap; gap: 8px; }
+  .hero-stat { padding: 0 12px; }
+  .universities-grid { grid-template-columns: 1fr; }
+  .fiche-infos-grid { grid-template-columns: 1fr; }
+  .terrain-grid { grid-template-columns: 1fr; }
+  .fiche-gen-info { flex-direction: column; gap: 14px; }
+}

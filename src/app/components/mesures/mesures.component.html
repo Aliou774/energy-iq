@@ -1,0 +1,269 @@
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Mesures</h1>
+      <p class="page-sub">Données capteurs en temps réel</p>
+    </div>
+  </div>
+
+  <!-- Sélecteur de salle -->
+  <div class="salle-tabs">
+    <button *ngFor="let s of salles" class="salle-tab"
+            [class.active]="selectedSalleId === (s.idSalle || s.id)"
+            (click)="selectSalle(s.idSalle || s.id || '')">
+      {{ s.nomSalle }}
+    </button>
+  </div>
+
+  <!-- Pas de salle -->
+  <div class="empty-state" *ngIf="salles.length === 0">
+    <div class="empty-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
+    </div>
+    <p class="empty-title">Aucune salle disponible</p>
+    <a routerLink="/salles">Ajouter des salles →</a>
+  </div>
+
+  <div *ngIf="selectedSalle">
+
+    <!-- Bandeau statut -->
+    <div class="connexion-banner"
+         [class.online]="estConnecte"
+         [class.offline]="!estConnecte">
+      <span class="connexion-dot"></span>
+      <span *ngIf="estConnecte">
+        Capteur connecté — dernière transmission :
+        {{ donneesCapteur?.timestamp | date:'dd/MM/yy HH:mm:ss' }}
+      </span>
+      <span *ngIf="!estConnecte">
+        Capteur hors ligne — aucune donnée reçue depuis plus de 30 secondes
+      </span>
+    </div>
+
+    <!-- Cards capteurs -->
+    <div class="capteurs-grid">
+      <div class="capteur-card temp">
+        <div class="capteur-icon">🌡️</div>
+        <div class="capteur-body">
+          <span class="capteur-label">Température</span>
+          <span class="capteur-value">
+            {{ donneesCapteur?.temperature | number:'1.1-1' }}<small>°C</small>
+          </span>
+        </div>
+        <div class="capteur-status"
+             [class.ok]="(donneesCapteur?.temperature || 0) >= 20"
+             [class.warn]="(donneesCapteur?.temperature || 0) < 20">
+          {{ (donneesCapteur?.temperature || 0) >= 20 ? 'Normal' : 'Froid' }}
+        </div>
+      </div>
+
+      <div class="capteur-card hum">
+        <div class="capteur-icon">💧</div>
+        <div class="capteur-body">
+          <span class="capteur-label">Humidité</span>
+          <span class="capteur-value">
+            {{ donneesCapteur?.humidite | number:'1.0-0' }}<small>%</small>
+          </span>
+        </div>
+        <div class="capteur-status ok">Normal</div>
+      </div>
+
+      <div class="capteur-card presence"
+           [class.occupied]="presenceReelle"
+           [class.hors-ligne]="!estConnecte">
+        <div class="capteur-icon">{{ presenceReelle ? '🟢' : '⭕' }}</div>
+        <div class="capteur-body">
+          <span class="capteur-label">Présence</span>
+          <span class="capteur-value" style="font-size:20px">
+            {{ presenceReelle ? 'Oui' : 'Non' }}
+          </span>
+        </div>
+        <div class="capteur-status"
+             [class.ok]="presenceReelle" [class.off]="!presenceReelle">
+          {{ !estConnecte ? 'Hors ligne' : (presenceReelle ? 'Occupée' : 'Vide') }}
+        </div>
+      </div>
+
+      <div class="capteur-card power">
+        <div class="capteur-icon">⚡</div>
+        <div class="capteur-body">
+          <span class="capteur-label">Puissance</span>
+          <span class="capteur-value">
+            {{ derniereMesure?.puissance | number:'1.0-0' }}<small>W</small>
+          </span>
+        </div>
+        <div class="capteur-status ok">Calculée</div>
+      </div>
+
+      <div class="capteur-card tension">
+        <div class="capteur-icon">🔌</div>
+        <div class="capteur-body">
+          <span class="capteur-label">Tension</span>
+          <span class="capteur-value">
+            {{ derniereMesure?.tension | number:'1.0-0' }}<small>V</small>
+          </span>
+        </div>
+        <div class="capteur-status ok">ZMPT101B</div>
+      </div>
+
+      <div class="capteur-card courant">
+        <div class="capteur-icon">〰️</div>
+        <div class="capteur-body">
+          <span class="capteur-label">Courant</span>
+          <span class="capteur-value">
+            {{ derniereMesure?.courant | number:'1.2-2' }}<small>A</small>
+          </span>
+        </div>
+        <div class="capteur-status ok">SCT-013</div>
+      </div>
+    </div>
+
+    <!-- ── Section tarification ── -->
+    <div class="tarif-section" *ngIf="afficherTarif">
+
+      <!-- Titre + badge tranche -->
+      <div class="tarif-header">
+        <h3 class="tarif-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+          </svg>
+          Estimation du coût énergétique
+        </h3>
+        <span class="tranche-badge" [ngClass]="classeTranche">
+          {{ labelTranche }}
+        </span>
+      </div>
+
+      <!-- Choix de la catégorie tarifaire -->
+      <div class="categorie-selector">
+        <p class="categorie-titre">Choisissez votre catégorie tarifaire SENELEC :</p>
+        <div class="categorie-options">
+          <label *ngFor="let opt of optionsTarifaires" class="categorie-option"
+                 [class.active]="optionSelectionnee.code === opt.code">
+            <input type="radio" name="tarif" [value]="opt.code"
+                   [checked]="optionSelectionnee.code === opt.code"
+                   (change)="selectOption(opt.code)"/>
+            <span class="option-code">{{ opt.code }}</span>
+            <span class="option-desc">{{ opt.label }}</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Résumé : énergie + prix/kWh appliqué -->
+      <div class="tarif-resume">
+        <div class="resume-item">
+          <span class="resume-label">Énergie estimée/mois</span>
+          <span class="resume-valeur">{{ energieMensuelleKwh | number:'1.1-1' }} kWh</span>
+          <span class="resume-base">{{ puissanceKw | number:'1.3-3' }} kW × {{ HEURES_JOUR }}h × {{ JOURS_OUVRES }}j</span>
+        </div>
+        <div class="resume-separateur"></div>
+        <div class="resume-item">
+          <span class="resume-label">Prix appliqué</span>
+          <span class="resume-valeur accent">{{ prixKwhActuel | number:'1.2-2' }} FCFA/kWh</span>
+          <span class="resume-base">{{ optionSelectionnee.code }} · {{ numeroTranche }}{{ numeroTranche === 1 ? 'ère' : 'ème' }} tranche</span>
+        </div>
+      </div>
+
+      <!-- 3 cards de coût -->
+      <div class="cout-grid">
+        <div class="cout-card">
+          <span class="cout-icon">🕐</span>
+          <span class="cout-label">Par heure</span>
+          <span class="cout-valeur">{{ coutHeure | number:'1.1-1' }}</span>
+          <span class="cout-unite">FCFA</span>
+        </div>
+        <div class="cout-card principal">
+          <span class="cout-icon">📅</span>
+          <span class="cout-label">Par jour</span>
+          <span class="cout-valeur">{{ coutJournalier | number:'1.0-0' }}</span>
+          <span class="cout-unite">FCFA</span>
+        </div>
+        <div class="cout-card">
+          <span class="cout-icon">📆</span>
+          <span class="cout-label">Par mois</span>
+          <span class="cout-valeur">{{ coutMensuel | number:'1.0-0' }}</span>
+          <span class="cout-unite">FCFA</span>
+        </div>
+      </div>
+
+      <div class="tarif-note">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        Source : CRSE — Décision n°2025-140 du 26 décembre 2025 •
+        Grille tarifaire SENELEC applicable au 1er janvier 2026
+      </div>
+
+    </div>
+
+    <!-- Graphiques -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="card-header">
+          <h3>Évolution température</h3>
+          <span class="sensor-badge">DHT22</span>
+        </div>
+        <div class="chart-wrap"><canvas id="chartTemp"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="card-header">
+          <h3>Évolution puissance</h3>
+          <span class="sensor-badge">SCT-013 + ZMPT101B</span>
+        </div>
+        <div class="chart-wrap"><canvas id="chartPower"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Historique -->
+    <div class="historique-card">
+      <div class="card-header">
+        <h3>Historique des mesures</h3>
+        <span class="count-badge">{{ historique.length }} mesures</span>
+      </div>
+      <div class="no-data" *ngIf="historique.length === 0">
+        <p>Aucune mesure enregistrée pour l'instant</p>
+      </div>
+      <div class="table-wrap" *ngIf="historique.length > 0">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Heure</th>
+              <th>Temp.</th>
+              <th>Humidité</th>
+              <th>Présence</th>
+              <th>Puissance</th>
+              <th>Tension</th>
+              <th>Courant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let m of historique; let i = index"
+                [class.highlight]="i === 0">
+              <td class="val-time">{{ m.timestamp ? (m.timestamp | date:'dd/MM/yy HH:mm:ss') : '—' }}</td>
+              <td class="val-temp">{{ m.temperature | number:'1.1-1' }}°C</td>
+              <td>{{ m.humidite | number:'1.0-0' }}%</td>
+              <td>
+                <span class="pres-badge" [class.present]="m.presence">
+                  {{ m.presence ? '● Oui' : '○ Non' }}
+                </span>
+              </td>
+              <td class="val-power">{{ m.puissance | number:'1.0-0' }}W</td>
+              <td>{{ m.tension | number:'1.0-0' }}V</td>
+              <td>{{ m.courant | number:'1.2-2' }}A</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
